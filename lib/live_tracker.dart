@@ -52,7 +52,7 @@ class _Page2State extends State<Page2> {
     return byteData.buffer.asUint8List();
   }
 
-  void updateMarkerAndCircle(double lat, double long, Uint8List imageData) {
+  void updatePin(double lat, double long, Uint8List imageData) {
     LatLng latLng = LatLng(lat, long);
     print("latitude = $lat longitude = $long");
     this.setState(() {
@@ -65,14 +65,6 @@ class _Page2State extends State<Page2> {
         flat: true,
         anchor: Offset(0.5, 0.5),
         icon: BitmapDescriptor.fromBytes(imageData),
-      );
-      circle = Circle(
-        circleId: CircleId("car"),
-        // radius: 30.0,
-        zIndex: 1,
-        strokeColor: Colors.blue,
-        center: latLng,
-        fillColor: Colors.blue.withAlpha(70),
       );
     });
   }
@@ -111,7 +103,7 @@ class _Page2State extends State<Page2> {
           new_lat = snapshot.value[data.id]["lat"];
           new_long = snapshot.value[data.id]["lng"];
         });
-        updateMarkerAndCircle(new_lat, new_long, imageData);
+        updatePin(new_lat, new_long, imageData);
         _controller.animateCamera(CameraUpdate.newCameraPosition(
             new CameraPosition(
                 bearing: 192.8334901395799,
