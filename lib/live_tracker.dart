@@ -29,26 +29,14 @@ class _Page2State extends State<Page2> {
   static double lat, long;
   final database = FirebaseDatabase.instance.reference();
 
-  void initState() {
-    _getThingsOnStart().then((value) {});
-    super.initState();
-  }
-
-  Future _getThingsOnStart() async {
-    await usersRef.once().then((DataSnapshot snapshot) {
-      lat = snapshot.value[data.id]["lat"];
-      long = snapshot.value[data.id]["lng"];
-    });
-  }
-
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(lat, long),
+    target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.46746,
   );
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/images/car_icon.png");
+        await DefaultAssetBundle.of(context).load("assets/images/pin.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -59,7 +47,7 @@ class _Page2State extends State<Page2> {
       marker = Marker(
         markerId: MarkerId('home'),
         position: latLng,
-        // rotation: 1,
+        rotation: 192,
         draggable: false,
         zIndex: 2,
         flat: true,
@@ -100,8 +88,8 @@ class _Page2State extends State<Page2> {
       while (true) {
         await Future.delayed(Duration(seconds: 5));
         await usersRef.once().then((DataSnapshot snapshot) {
-          new_lat = snapshot.value[data.id]["lat"];
-          new_long = snapshot.value[data.id]["lng"];
+          new_lat = snapshot.value["X1K5UZNL6idgrEvpoRLt9XMSing1"]["lat"];
+          new_long = snapshot.value["X1K5UZNL6idgrEvpoRLt9XMSing1"]["lng"];
         });
         updatePin(new_lat, new_long, imageData);
         _controller.animateCamera(CameraUpdate.newCameraPosition(
