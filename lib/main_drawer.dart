@@ -1,33 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trackit/live_pager.dart';
 import 'package:trackit/Data.dart';
-/*import 'package:live_loc_tracker/main.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-class MainDrawer extends StatefulWidget {
-  @override
-  const MainDrawer({
-    Key key,
-    this.user}) : super(key: key);
-  final User user;
-  _MainDrawerState createState() => _MainDrawerState();
-}*/
-
 class MainDrawer extends StatelessWidget {
   @override
-  /*final User user;
-   MainDrawer({
-    this.user,
-    Key key}) : super(key:key);*/
   final Data data;
   MainDrawer({this.data});
   Widget build(BuildContext context) {
-    /* print(user);
-    usersRef.once().then((DataSnapshot snapshot){
-      String id=widget.user.uid;
-      _username=snapshot.value[id]["name"];
-      _usermail=snapshot.value[id]["mail"];
-    });*/
     return new Drawer(
       child: new Column(
         children: <Widget>[
@@ -48,7 +26,7 @@ class MainDrawer extends StatelessWidget {
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage('assets/images/LikhithRK.PNG'),
+                        image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf2j71u2ipMbi4uUIcRaomOvJOSPkvvUPWFA&usqp=CAU"),
                         fit: BoxFit.fill,
                       ),
                     ),

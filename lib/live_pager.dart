@@ -1,31 +1,27 @@
 import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
-class Page1 extends StatelessWidget {
+import 'package:trackit/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+class Page1 extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Live Tracker',
-      home: Homelive(),
-    );
+  _Page1State createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+   String id;
+  void initState() {
+    _getThingsOnStart().then((value) {
+    });
+    super.initState();
   }
-}
-
-class Homelive extends StatefulWidget {
-  Homelive({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _HomeliveState createState() => _HomeliveState();
-}
-
-class _HomeliveState extends State<Homelive> {
+  Future _getThingsOnStart() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    id = _auth.currentUser.uid;
+  }
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
   Marker marker;
@@ -39,7 +35,7 @@ class _HomeliveState extends State<Homelive> {
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/images/car_icon.png");
+    await DefaultAssetBundle.of(context).load("assets/images/car_icon.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -73,23 +69,24 @@ class _HomeliveState extends State<Homelive> {
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
-
       if (_locationSubscription != null) {
         _locationSubscription.cancel();
       }
 
       _locationSubscription =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-        if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                  tilt: 0,
-                  zoom: 18.00)));
-          updateMarkerAndCircle(newLocalData, imageData);
-        }
-      });
+            if (_controller != null) {
+              _controller.animateCamera(CameraUpdate.newCameraPosition(
+                  new CameraPosition(
+                      bearing: 192.8334901395799,
+                      target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                      tilt: 0,
+                      zoom: 18.00)));
+              updateMarkerAndCircle(newLocalData, imageData);
+              usersRef.child(id).update({"lat":newLocalData.latitude,
+                "lng":newLocalData.longitude});
+            }
+          });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         debugPrint("Permission Denied");
