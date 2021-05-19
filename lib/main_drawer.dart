@@ -26,7 +26,12 @@ class MainDrawer extends StatelessWidget {
                     decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
+<<<<<<< HEAD
                         image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf2j71u2ipMbi4uUIcRaomOvJOSPkvvUPWFA&usqp=CAU"),
+=======
+                        image: NetworkImage(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf2j71u2ipMbi4uUIcRaomOvJOSPkvvUPWFA&usqp=CAU'),
+>>>>>>> 915b1a617294ff05e8c5088202a77812589ef07b
                         fit: BoxFit.fill,
                       ),
                     ),
