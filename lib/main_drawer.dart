@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:trackit/live_pager.dart';
+import 'package:trackit/live_tracker.dart';
 import 'package:trackit/Data.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:trackit/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -71,9 +78,22 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Page1()),
-              );
+              if (data.id == "X1K5UZNL6idgrEvpoRLt9XMSing1") {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => Page1(
+                            data: data,
+                          )),
+                );
+              } else if (data.id == "QXTYvdP0DTYmo4Jnwg3r94XbVZl1") {
+                print("Hello");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => Page2(
+                            data: data,
+                          )),
+                );
+              }
             },
           ),
           ListTile(
