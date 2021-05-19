@@ -7,17 +7,16 @@ import 'package:trackit/Data.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  // const HomeScreen({Key key, this.user}) : super(key: key);
-  // final User user;
   final Data data;
-  HomeScreen({this.data});
+  final User user;
+  HomeScreen({this.data, this.user});
   @override
   _HomeScreenState createState() => _HomeScreenState(data: data);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final Data data;
-  String username = "USER";
+  String username;
   _HomeScreenState({this.data});
   void initState() {
     _getThingsOnStart().then((value) {
@@ -71,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             ElevatedButton(
                 onPressed: fun, child: Text("Click to get user details")),
-            //Text(username),
           ],
         ),
       ),
