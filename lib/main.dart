@@ -11,13 +11,13 @@ Future main() async {
   runApp(MyApp());
 }
 
-DatabaseReference usersRef =
-    FirebaseDatabase.instance.reference().child("users");
+DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'login page',
       home: Login(),
       debugShowCheckedModeBanner: false,

@@ -13,6 +13,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   String _email, _password, _name;
+  bool _passwordVisible=false;
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: TextFormField(
-                                  validator: (input) {
+                                validator: (input) {
                                     if (input.length < 6) {
                                       return "Enter ateast 6 characters";
                                     }
@@ -161,13 +163,22 @@ class _SignUpState extends State<SignUp> {
                                   onSaved: (input) {
                                     _password = input;
                                   },
-                                  obscureText: true,
+                                  obscureText: !_passwordVisible,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     labelText: "Password",
                                     hintText: "Enter Password",
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
+                                      color: Colors.blue[800],
+                                      onPressed: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                          });
+                                      },
                                     ),
                                   ),
                                 ),
