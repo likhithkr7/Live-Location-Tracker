@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseAuth _auth = FirebaseAuth.instance;
     print(_auth.currentUser);
     String id = _auth.currentUser.uid;
+    data.id = id;
     await usersRef.once().then((DataSnapshot snapshot) {
       username = snapshot.value[id]["name"];
       data.username = username;
