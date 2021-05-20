@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final Data data;
   String username;
   List<String> users = [];
+  List<String> user_id = [];
   _HomeScreenState({this.data});
   void initState() {
     _getThingsOnStart().then((value) {
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var key in keys) {
         if (key == id) continue;
         users.add(values[key]["name"]);
+        user_id.add(key);
       }
       for (int i = 0; i < users.length; i++) print(users[i]);
     });
@@ -60,7 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 // textColor: const Color(0xFF6200EE),
                 onPressed: () {
-                  // Navigator.of(context).pop();
+                  data.user_id = user_id[index];
+                  Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => Page2(
@@ -78,29 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget build(BuildContext context) {
-    void fun() async {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Column(
-                children: [
-                  Text('USER: ' + data.username),
-                  Text('EMAIL: ' + data.usermail),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("CLOSE"),
-                )
-              ],
-            );
-          });
-    }
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Home page'),
@@ -109,17 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
         body: new ListView.builder(
             itemCount: users.length,
             itemBuilder: (BuildContext ctxt, int index) =>
-                buildBody(ctxt, index))
-        // Center(
-        //   child: Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: <Widget>[
-        //       ElevatedButton(
-        //           onPressed: fun, child: Text("Click to get user details")),
-
-        //     ],
-        //   ),
-        // ),
-        );
+                buildBody(ctxt, index)));
   }
 }
