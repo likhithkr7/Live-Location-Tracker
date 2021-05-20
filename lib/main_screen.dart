@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final Data data;
   String username;
   List<String> users = [];
+  List<String> user_id = [];
   _HomeScreenState({this.data});
   void initState() {
     _getThingsOnStart().then((value) {
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var key in keys) {
         if (key == id) continue;
         users.add(values[key]["name"]);
+        user_id.add(values[key]);
       }
       for (int i = 0; i < users.length; i++) print(users[i]);
     });
@@ -60,7 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 // textColor: const Color(0xFF6200EE),
                 onPressed: () {
-                  // Navigator.of(context).pop();
+                  data.user_id = user_id[index];
+                  Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => Page2(

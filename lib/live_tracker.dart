@@ -88,8 +88,8 @@ class _Page2State extends State<Page2> {
       while (true) {
         await Future.delayed(Duration(seconds: 5));
         await usersRef.once().then((DataSnapshot snapshot) {
-          new_lat = snapshot.value["X1K5UZNL6idgrEvpoRLt9XMSing1"]["lat"];
-          new_long = snapshot.value["X1K5UZNL6idgrEvpoRLt9XMSing1"]["lng"];
+          new_lat = snapshot.value[data.user_id]["lat"];
+          new_long = snapshot.value[data.user_id]["lng"];
         });
         updatePin(new_lat, new_long, imageData);
         _controller.animateCamera(CameraUpdate.newCameraPosition(
