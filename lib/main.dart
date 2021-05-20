@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'login page',
       home: Login(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
