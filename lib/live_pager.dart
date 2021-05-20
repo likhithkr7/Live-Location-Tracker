@@ -6,22 +6,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:trackit/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trackit/Data.dart';
+
 class Page1 extends StatefulWidget {
   @override
-  _Page1State createState() => _Page1State();
+  final Data data;
+  Page1({this.data});
+  _Page1State createState() => _Page1State(data: data);
 }
 
 class _Page1State extends State<Page1> {
-   String id;
-  void initState() {
-    _getThingsOnStart().then((value) {
-    });
-    super.initState();
-  }
-  Future _getThingsOnStart() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    id = _auth.currentUser.uid;
-  }
+  @override
+  final Data data;
+  _Page1State({this.data});
   StreamSubscription _locationSubscription;
   Location _locationTracker = Location();
   Marker marker;
@@ -35,7 +32,7 @@ class _Page1State extends State<Page1> {
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-    await DefaultAssetBundle.of(context).load("assets/images/car_icon.png");
+        await DefaultAssetBundle.of(context).load("assets/images/car_icon.png");
     return byteData.buffer.asUint8List();
   }
 
@@ -69,24 +66,25 @@ class _Page1State extends State<Page1> {
       var location = await _locationTracker.getLocation();
 
       updateMarkerAndCircle(location, imageData);
+
       if (_locationSubscription != null) {
         _locationSubscription.cancel();
       }
 
       _locationSubscription =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-            if (_controller != null) {
-              _controller.animateCamera(CameraUpdate.newCameraPosition(
-                  new CameraPosition(
-                      bearing: 192.8334901395799,
-                      target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                      tilt: 0,
-                      zoom: 18.00)));
-              updateMarkerAndCircle(newLocalData, imageData);
-              usersRef.child(id).update({"lat":newLocalData.latitude,
-                "lng":newLocalData.longitude});
-            }
-          });
+        if (_controller != null) {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(
+              new CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                  tilt: 0,
+                  zoom: 18.00)));
+          updateMarkerAndCircle(newLocalData, imageData);
+          usersRef.child(data.id).update(
+              {"lat": newLocalData.latitude, "lng": newLocalData.longitude});
+        }
+      });
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         debugPrint("Permission Denied");
@@ -106,7 +104,7 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('live tracker'),
+        title: Text('Live tracker'),
       ),
       body: GoogleMap(
         mapType: MapType.hybrid,

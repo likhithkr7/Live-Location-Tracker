@@ -12,6 +12,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String _email, _password;
+  bool _passwordVisible=false;
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +137,7 @@ class _LoginState extends State<Login> {
                                   onSaved: (input) {
                                     _password = input;
                                   },
-                                  obscureText: true,
+                                  obscureText: !_passwordVisible,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     labelText: "Password",
@@ -143,7 +145,17 @@ class _LoginState extends State<Login> {
                                     hintStyle: TextStyle(
                                       color: Colors.grey[400],
                                     ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
+                                      color: Colors.blue[800],
+                                      onPressed: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                          });
+                                      },
+                                    ),
                                   ),
+
                                 ),
                               ),
                               FadeAnimation(
@@ -170,7 +182,13 @@ class _LoginState extends State<Login> {
                                                         color: Colors.white,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                      ))))))),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                             ],
                           ))),
                   SizedBox(

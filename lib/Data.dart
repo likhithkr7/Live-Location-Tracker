@@ -1,4 +1,4 @@
 class Data {
-  String username, usermail;
-  Data({this.username, this.usermail});
+  String username, usermail, id;
+  Data({this.username, this.usermail, this.id});
 }
