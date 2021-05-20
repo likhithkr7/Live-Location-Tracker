@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'login page',
       home: Login(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
