@@ -4,6 +4,8 @@ import 'package:trackit/main_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:trackit/Data.dart';
+import 'package:trackit/live_tracker.dart';
+import 'package:trackit/live_pager.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Data data;
   String username;
-  List users = [];
+  List<String> users = [];
   _HomeScreenState({this.data});
   void initState() {
     _getThingsOnStart().then((value) {
@@ -42,6 +44,37 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       for (int i = 0; i < users.length; i++) print(users[i]);
     });
+  }
+
+  Widget buildBody(BuildContext ctxt, int index) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(users[index]),
+          ),
+          ButtonBar(
+            alignment: MainAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                // textColor: const Color(0xFF6200EE),
+                onPressed: () {
+                  // Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => Page2(
+                              data: data,
+                            )),
+                  );
+                },
+                child: const Text('Track'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -69,19 +102,24 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home page'),
-      ),
-      drawer: MainDrawer(data: data),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-                onPressed: fun, child: Text("Click to get user details")),
-          ],
+        appBar: AppBar(
+          title: Text('Home page'),
         ),
-      ),
-    );
+        drawer: MainDrawer(data: data),
+        body: new ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (BuildContext ctxt, int index) =>
+                buildBody(ctxt, index))
+        // Center(
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
+        //       ElevatedButton(
+        //           onPressed: fun, child: Text("Click to get user details")),
+
+        //     ],
+        //   ),
+        // ),
+        );
   }
 }
