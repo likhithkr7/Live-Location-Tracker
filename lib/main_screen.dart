@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Data data;
   String username;
+  List users = [];
   _HomeScreenState({this.data});
   void initState() {
     _getThingsOnStart().then((value) {
@@ -33,6 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
     await usersRef.once().then((DataSnapshot snapshot) {
       username = snapshot.value[id]["name"];
       data.username = username;
+      var keys = snapshot.value.keys;
+      var values = snapshot.value;
+      for (var key in keys) {
+        if (key == id) continue;
+        users.add(values[key]["name"]);
+      }
+      for (int i = 0; i < users.length; i++) print(users[i]);
     });
   }
 
