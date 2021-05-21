@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text('Home page'),
         ),
         drawer: MainDrawer(data: data),
-        body: Column(children: <Widget>[
-          Expanded(
+        body: Container(
+            height: MediaQuery.of(context).size.height*0.80,
             child: new ListView.builder(
               itemCount: users.length,
               itemBuilder: (BuildContext ctxt, int index) {
@@ -91,6 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           )
-        ]));
+        );
   }
 }
