@@ -23,15 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String> user_id = [];
   _HomeScreenState({this.data});
   void initState() {
-    _getThingsOnStart().then((value) {
+    /*_getThingsOnStart().then((value) {
       print('Async done');
-    });
+    });*/
     super.initState();
   }
 
   Future _getThingsOnStart() async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    print(_auth.currentUser);
+    //print(_auth.currentUser);
     String id = _auth.currentUser.uid;
     data.id = id;
     await usersRef.once().then((DataSnapshot snapshot) {
@@ -44,53 +44,55 @@ class _HomeScreenState extends State<HomeScreen> {
         users.add(values[key]["name"]);
         user_id.add(key);
       }
-      for (int i = 0; i < users.length; i++) print(users[i]);
+      // for (int i = 0; i < users.length; i++) print(users[i]);
     });
   }
 
+  Widget buildBody(BuildContext ctxt, int index) {
+    return Card(
+      //clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(users[index]),
+          ),
+          ButtonBar(
+            alignment: MainAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                // textColor: const Color(0xFF6200EE),
+                onPressed: () {
+                  data.user_id = user_id[index];
+                  //Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => Page2(
+                              data: data,
+                            )),
+                  );
+                },
+                child: const Text('Track'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Home page'),
-        ),
-        drawer: MainDrawer(data: data),
-        body: Container(
-            height: MediaQuery.of(context).size.height*0.80,
-            child: new ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (BuildContext ctxt, int index) {
-                return Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(users[index]),
-                      ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.start,
-                        children: [
-                          ElevatedButton(
-                            // textColor: const Color(0xFF6200EE),
-                            onPressed: () {
-                              data.user_id = user_id[index];
-                              // Navigator.of(context).pop();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => Page2(
-                                          data: data,
-                                        )),
-                              );
-                            },
-                            child: const Text('Locate'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          )
-        );
+    return FutureBuilder(
+        future: _getThingsOnStart(),
+        builder: (context, snapshot) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text('Home page'),
+              ),
+              drawer: MainDrawer(data: data),
+              body: ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (BuildContext ctxt, int index) =>
+                      buildBody(ctxt, index)));
+        });
   }
 }
