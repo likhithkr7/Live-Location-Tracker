@@ -171,9 +171,9 @@ class _LoginState extends State<Login> {
                                                 gradient:
                                                     LinearGradient(colors: [
                                                   Color.fromRGBO(
-                                                      143, 148, 251, 1),
+                                                      143, 148, 251, 1000),
                                                   Color.fromRGBO(
-                                                      143, 148, 251, .6),
+                                                      143, 148, 251, 1000),
                                                 ]),
                                               ),
                                               child: Center(
