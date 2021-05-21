@@ -48,47 +48,49 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget buildBody(BuildContext ctxt, int index) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(users[index]),
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.start,
-            children: [
-              ElevatedButton(
-                // textColor: const Color(0xFF6200EE),
-                onPressed: () {
-                  data.user_id = user_id[index];
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => Page2(
-                              data: data,
-                            )),
-                  );
-                },
-                child: const Text('Track'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Home page'),
         ),
         drawer: MainDrawer(data: data),
-        body: new ListView.builder(
-            itemCount: users.length,
-            itemBuilder: (BuildContext ctxt, int index) =>
-                buildBody(ctxt, index)));
+        body: Column(children: <Widget>[
+          Expanded(
+            child: new ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (BuildContext ctxt, int index) {
+                return Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(users[index]),
+                      ),
+                      ButtonBar(
+                        alignment: MainAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            // textColor: const Color(0xFF6200EE),
+                            onPressed: () {
+                              data.user_id = user_id[index];
+                              // Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Page2(
+                                          data: data,
+                                        )),
+                              );
+                            },
+                            child: const Text('Locate'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ]));
   }
 }
