@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:trackit/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trackit/login.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -104,7 +105,14 @@ class MainDrawer extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            onTap: null,
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+                (Route route) => false,
+              );
+            },
           ),
         ],
       ),
