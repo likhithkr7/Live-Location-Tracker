@@ -78,22 +78,12 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              if (data.id == "X1K5UZNL6idgrEvpoRLt9XMSing1") {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => Page1(
-                            data: data,
-                          )),
-                );
-              } else if (data.id == "QXTYvdP0DTYmo4Jnwg3r94XbVZl1") {
-                print("Hello");
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => Page2(
-                            data: data,
-                          )),
-                );
-              }
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => Page1(
+                          data: data,
+                        )),
+              );
             },
           ),
           ListTile(
